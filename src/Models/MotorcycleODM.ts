@@ -1,37 +1,38 @@
 import { Schema, isValidObjectId } from 'mongoose';
 import BadRequest from '../errors/BadRequest';
 import NotFound from '../errors/NotFound';
-import ICar from '../Interfaces/ICar';
+import IMotorcycle from '../Interfaces/IMotorcycle';
 import AbstractODM from './AbstractODM';
 
-export default class CarODM extends AbstractODM<ICar> {
+class MotorcycleODM extends AbstractODM<IMotorcycle> {
   constructor() {
-    const schema = new Schema<ICar>({
+    const schema = new Schema<IMotorcycle>({
       model: { type: String, required: true },
       year: { type: Number, required: true },
       color: { type: String, required: true },
       status: { type: Boolean },
       buyValue: { type: Number, required: true },
-      doorsQty: { type: Number, required: true },
-      seatsQty: { type: Number, required: true },
+      category: { type: String, required: true },
+      engineCapacity: { type: Number, required: true },
     });
-
-    super(schema, 'cars');
+    super(schema, 'motorcycle');
   }
 
-  public async getById(id: string): Promise<ICar | undefined> {
+  public async getById(id: string): Promise<IMotorcycle | undefined> {
     if (!isValidObjectId(id)) throw new BadRequest('Invalid mongo id');
 
     const cars = await this.model.findById({ _id: id });
 
-    if (!cars) throw new NotFound('Car not found');
+    if (!cars) throw new NotFound('Motorcycle not found');
 
     return cars;
   }
 
-  public async update(id: string, car: ICar): Promise<ICar | null> {
+  public async update(id: string, moto: IMotorcycle): Promise<IMotorcycle | null> {
     await this.getById(id);
 
-    return this.model.findByIdAndUpdate({ _id: id }, { ...car }, { new: true });
+    return this.model.findByIdAndUpdate({ _id: id }, { ...moto }, { new: true });
   }
 }
+
+export default MotorcycleODM;
