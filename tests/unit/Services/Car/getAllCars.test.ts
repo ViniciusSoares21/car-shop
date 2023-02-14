@@ -38,5 +38,6 @@ describe('Teste getAllCars', function () {
     const result = await service.getAllCars();
 
     expect(result).to.be.deep.equal(carOutput);
+    sinon.restore();
   });
 });

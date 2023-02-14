@@ -18,11 +18,12 @@ describe('Teste CreateCar', function () {
     };
     const carOutput = new Car(carInput);
 
-    sinon.stub(Model, 'create').resolves(carOutput);
+    sinon.stub(Model, 'create').resolves({ ...carOutput });
 
     const service = new CarService();
     const result = await service.createCar(carInput);
 
     expect(result).to.be.deep.equal(carOutput);
+    sinon.restore();
   });
 });
