@@ -33,6 +33,11 @@ class MotorcycleODM extends AbstractODM<IMotorcycle> {
 
     return this.model.findByIdAndUpdate({ _id: id }, { ...moto }, { new: true });
   }
+
+  public async deleteMotorcycle(id: string): Promise<void> {
+    await this.getById(id);
+    await this.model.findByIdAndDelete({ _id: id });
+  }
 }
 
 export default MotorcycleODM;
