@@ -38,4 +38,10 @@ export default class CarODM {
 
     return cars;
   }
+
+  public async update(id: string, car: ICar): Promise<ICar | null> {
+    await this.getById(id);
+
+    return this.model.findByIdAndUpdate({ _id: id }, { ...car }, { new: true });
+  }
 }
