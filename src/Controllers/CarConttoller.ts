@@ -25,6 +25,9 @@ export default class CarController {
   public async getById(req: Request, res: Response, next: NextFunction) {
     try {
       const car = await this.carService.getCarById(req.params.id);
+      if (!car) {
+        return res.status(404).json({ message: 'Car not found' });
+      }
       return res.status(200).json(car);
     } catch (error) {
       next(error);
@@ -34,6 +37,9 @@ export default class CarController {
   public async update(req: Request, res: Response, next: NextFunction) {
     try {
       const car = await this.carService.updateCar(req.params.id, req.body);
+      if (!car) {
+        return res.status(404).json({ message: 'Car not found' });
+      }
       return res.status(200).json(car);
     } catch (error) {
       next(error);

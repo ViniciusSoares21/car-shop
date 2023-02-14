@@ -1,0 +1,34 @@
+import sinon from 'sinon';
+import chai from 'chai';
+// import request from 'supertest';
+import { Model } from 'mongoose';
+// import chaiHttp = require('chai-http');
+import ICar from '../../../src/Interfaces/ICar';
+import Car from '../../../src/Domains/Car';
+import app from '../../../src/app';
+
+// chai.use(chaiHttp);
+const { expect } = chai;
+
+describe('Requisição de Create', function () {
+  it('Com Sucesso', async function () {
+    const carInput: ICar = {
+      model: 'Ford',
+      year: 2019,
+      color: 'Vermelho',
+      status: true,
+      buyValue: 1000,
+      doorsQty: 4,
+      seatsQty: 5,
+    };
+    const carOutput = new Car(carInput);
+
+    sinon.stub(Model, 'create').resolves({ ...carOutput });
+
+    const { status, body } = await chai.request(app).post('/car').send(carInput);
+
+    expect(status).to.be.equal(201);
+    expect(body).to.be.deep.equal(carOutput);
+    sinon.restore();
+  });
+});
