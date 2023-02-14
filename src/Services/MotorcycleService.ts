@@ -31,4 +31,8 @@ export default class MotorcycleService {
     const updatedMoto = await this.model.update(id, moto);
     return this.createDoamin(updatedMoto as IMotorcycle);
   }
+
+  public async deleteMoto(id: string) {
+    await this.model.deleteMotorcycle(id);
+  }
 }
