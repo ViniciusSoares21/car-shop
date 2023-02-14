@@ -27,4 +27,9 @@ export default class CarService {
     const cars = await this.model.getById(id);
     return this.createDoamin(cars as ICar);
   }
+
+  public async updateCar(id: string, car: ICar) {
+    const updatedCar = await this.model.update(id, car);
+    return this.createDoamin(updatedCar as ICar);
+  }
 }
