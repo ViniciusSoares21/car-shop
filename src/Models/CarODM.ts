@@ -34,4 +34,9 @@ export default class CarODM extends AbstractODM<ICar> {
 
     return this.model.findByIdAndUpdate({ _id: id }, { ...car }, { new: true });
   }
+
+  public async deleteCar(id: string): Promise<void> {
+    await this.getById(id);
+    await this.model.findByIdAndDelete({ _id: id });
+  }
 }
