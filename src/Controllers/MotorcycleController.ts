@@ -25,6 +25,7 @@ export default class MotorcycleController {
   public async getById(req: Request, res: Response, next: NextFunction) {
     try {
       const moto = await this.service.getMotoById(req.params.id);
+      if (!moto) return res.status(404).json({ message: 'Motorcycle not found' });
       res.status(200).json(moto);
     } catch (error) {
       next(error);
@@ -34,6 +35,7 @@ export default class MotorcycleController {
   public async update(req: Request, res: Response, next: NextFunction) {
     try {
       const moto = await this.service.updateMoto(req.params.id, req.body);
+      if (!moto) return res.status(404).json({ message: 'Motorcycle not found' });
       res.status(200).json(moto);
     } catch (error) {
       next(error);

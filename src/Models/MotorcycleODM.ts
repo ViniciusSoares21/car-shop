@@ -18,19 +18,16 @@ class MotorcycleODM extends AbstractODM<IMotorcycle> {
     super(schema, 'motorcycle');
   }
 
-  public async getById(id: string): Promise<IMotorcycle | undefined> {
+  public async getById(id: string): Promise<IMotorcycle | null> {
     if (!isValidObjectId(id)) throw new BadRequest('Invalid mongo id');
 
     const cars = await this.model.findById({ _id: id });
-
-    if (!cars) throw new NotFound('Motorcycle not found');
 
     return cars;
   }
 
   public async update(id: string, moto: IMotorcycle): Promise<IMotorcycle | null> {
-    await this.getById(id);
-
+    if (!isValidObjectId(id)) throw new BadRequest('Invalid mongo id');
     return this.model.findByIdAndUpdate({ _id: id }, { ...moto }, { new: true });
   }
 
